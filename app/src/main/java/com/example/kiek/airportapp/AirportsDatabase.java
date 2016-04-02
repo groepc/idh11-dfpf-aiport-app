@@ -18,7 +18,6 @@ public class AirportsDatabase extends SQLiteAssetHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
     // Hier de CRUD methoden
     public Cursor getAirports() {
         SQLiteDatabase db = getReadableDatabase();
@@ -29,4 +28,26 @@ public class AirportsDatabase extends SQLiteAssetHelper {
         db.close();
         return c;
     }
+
+    public Cursor getAirportDetail(String icao) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String query = "SELECT * FROM airports WHERE icao ='"+icao+"'";
+        Cursor c2 = db.rawQuery(query, null);
+        c2.moveToFirst();
+        db.close();
+        return c2;
+    }
+
+    public Cursor getSearchResult(String query) {
+        SQLiteDatabase db = getReadableDatabase();
+
+        String result = "SELECT icao, name FROM airports WHERE name LIKE '%"+query+"%'";
+        Cursor c3 = db.rawQuery(result, null);
+        c3.moveToFirst();
+        db.close();
+        return c3;
+
+    }
+
 }

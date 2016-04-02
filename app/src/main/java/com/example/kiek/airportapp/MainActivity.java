@@ -1,21 +1,20 @@
 package com.example.kiek.airportapp;
 
-import android.content.ClipData;
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import java.util.ArrayList;
 
@@ -24,10 +23,9 @@ public class MainActivity extends AppCompatActivity {
     private final static String TAG = "MainActivity";
 
     public ListView airportListView;
-    private AirportCursorAdapter airportCursorAdapter;
     ArrayList list;
 
-    public final static String ID_EXTRA = "com.example.kiek.airportapp._icao";
+    public final static String airport = "com.example.kiek.airportapp._name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         Log.i(TAG, "count: " + list.size());
 
         ArrayAdapter adapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_list_item_1, list);
+                R.layout.my_listview, list);
         airportListView.setAdapter(adapter);
 
         adapter.notifyDataSetChanged();
@@ -63,25 +61,40 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener(){
+    private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener() {
 
         public void onItemClick(AdapterView<?> parent, View view,
                                 int position, long id) {
 
-                Log.i("Button click", "");
-                Intent i = new Intent(MainActivity.this, DetailActivity.class);
-                i.putExtra(ID_EXTRA, String.valueOf(id));
-                i.putExtra("name", String.valueOf("name"));
-                startActivity(i);
+            Log.i("Button click", "");
+            Intent i = new Intent(MainActivity.this, DetailActivity.class);
+            //i.putExtra(ID_EXTRA, String.valueOf(id));
 
-            }
+            String value = (String) parent.getItemAtPosition(position);
+            String arr[] = value.split(" ", 2);
+
+            Log.i(TAG, arr[0]);
+            i.putExtra(airport, arr[0]);
+
+            startActivity(i);
+
+        }
     };
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        // Get the SearchView and set the searchable configuration
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
+
+        ComponentName cn = new ComponentName(this, SearchActivity.class);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(cn));
+
+        searchView.setIconifiedByDefault(false); // Do not iconify the widget; expand it by default
+
         return true;
     }
 
@@ -92,11 +105,12 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_search) {
+            onSearchRequested();
             return true;
-        }
+        };
 
         return super.onOptionsItemSelected(item);
+
     }
 }
