@@ -8,15 +8,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 /**
  * Created by Kiek on 14-3-2016.
  */
 
-public class DetailActivity extends Activity {
+public class DetailActivity extends Activity implements OnMapReadyCallback {
 
     String passedVar2 = null;
     private TextView testView = null;
     private TextView testView2 = null;
+    private GoogleMap mMap;
+    double dou1;
+    double dou2;
 
     private final static String TAG2 = "DetailActivity";
 
@@ -39,8 +49,8 @@ public class DetailActivity extends Activity {
 
         String str1 = cursor2.getString(cursor2.getColumnIndex("name"));
         String str2 = cursor2.getString(cursor2.getColumnIndex("municipality"));
-        Double dou1 = cursor2.getDouble(cursor2.getColumnIndex("longitude"));
-        Double dou2 = cursor2.getDouble(cursor2.getColumnIndex("latitude"));
+        dou1 = cursor2.getDouble(cursor2.getColumnIndex("longitude"));
+        dou2 = cursor2.getDouble(cursor2.getColumnIndex("latitude"));
         String str3 = cursor2.getString(cursor2.getColumnIndex("iso_country"));
         Log.i(TAG2, str1);
         Log.i(TAG2, str2);
@@ -48,6 +58,10 @@ public class DetailActivity extends Activity {
         //display passed data
         testView.setText("The airport is " + str1 + " in " + str2 + " (" + str3+ ").");
         testView2.setText("Longitude: " + dou1 + " & latitude: " + dou2 +".");
+
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
     }
 
@@ -75,4 +89,18 @@ public class DetailActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng schiphol = new LatLng(52, 5);
+        mMap.addMarker(new MarkerOptions().position(schiphol).title("Marker on Schiphol"));
+
+        // Add a marker on the selected airport
+        LatLng detailAirport = new LatLng(this.dou2, this.dou1);
+        mMap.addMarker(new MarkerOptions().position(detailAirport).title("Marker on selected airport"));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(schiphol));
+    }
 }
