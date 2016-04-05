@@ -4,8 +4,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/tv"
         android:textColor="@color/font_content"
-        android:padding="5sp"
         android:layout_width="fill_parent"
         android:singleLine="true"
         android:gravity="left"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+    android:padding="13dp"/>

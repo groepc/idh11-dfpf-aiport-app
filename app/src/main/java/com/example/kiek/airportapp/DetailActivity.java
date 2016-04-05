@@ -1,9 +1,8 @@
 package com.example.kiek.airportapp;
 
-import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -15,15 +14,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-/**
- * Created by Kiek on 14-3-2016.
- */
-
-public class DetailActivity extends Activity implements OnMapReadyCallback {
+public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     String passedVar2 = null;
-    private TextView testView = null;
-    private TextView testView2 = null;
+    private TextView name = null;
+    private TextView icao = null;
+    private TextView countryCode = null;
+    private TextView location = null;
     private GoogleMap mMap;
     double dou1;
     double dou2;
@@ -39,8 +36,11 @@ public class DetailActivity extends Activity implements OnMapReadyCallback {
         passedVar2 = getIntent().getStringExtra(MainActivity.airport);
 
         //find out text view
-        testView = (TextView) findViewById(R.id.test);
-        testView2 = (TextView) findViewById(R.id.test2);
+        name = (TextView) findViewById(R.id.textName);
+        icao = (TextView) findViewById(R.id.textIcao);
+        location = (TextView) findViewById(R.id.textLocation);
+        countryCode = (TextView) findViewById(R.id.textCountryCode);
+
 
         // Init database and query
         AirportsDatabase adb = new AirportsDatabase(this);
@@ -48,20 +48,22 @@ public class DetailActivity extends Activity implements OnMapReadyCallback {
 
         cursor2.moveToFirst();
 
-        String str1 = cursor2.getString(cursor2.getColumnIndex("name"));
-        String str2 = cursor2.getString(cursor2.getColumnIndex("municipality"));
+        String dbName = cursor2.getString(cursor2.getColumnIndex("name"));
+        String dbIcao = cursor2.getString(cursor2.getColumnIndex("icao"));
+        String dbLocation = cursor2.getString(cursor2.getColumnIndex("municipality"));
         dou1 = cursor2.getDouble(cursor2.getColumnIndex("longitude"));
         dou2 = cursor2.getDouble(cursor2.getColumnIndex("latitude"));
-        String str3 = cursor2.getString(cursor2.getColumnIndex("iso_country"));
-        Log.i(TAG2, str1);
-        Log.i(TAG2, str2);
+        String dbCountryCode = cursor2.getString(cursor2.getColumnIndex("iso_country"));
 
-        //display passed data
-        testView.setText("The airport is " + str1 + " in " + str2 + " (" + str3+ ").");
+
+        name.setText(dbName);
+        icao.setText(dbIcao);
+        location.setText(dbLocation);
+        countryCode.setText(dbCountryCode);
 
         distance = Haversine.distance(52, 5, dou2, dou1);
 
-        testView2.setText("The distance to Schiphol Airport (NL) is " + distance + "km.");
+        //testView2.setText("The distance to Schiphol Airport (NL) is " + distance + "km.");
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -73,7 +75,7 @@ public class DetailActivity extends Activity implements OnMapReadyCallback {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
 
     }

@@ -1,11 +1,10 @@
 package com.example.kiek.airportapp;
 
-import android.app.Activity;
-import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by Kiek on 28-3-2016.
  */
-public class SearchActivity extends Activity {
+public class SearchActivity extends AppCompatActivity {
 
     private final static String TAG = "SearchActivity";
     public final static String airport = "com.example.kiek.airportapp._name";
