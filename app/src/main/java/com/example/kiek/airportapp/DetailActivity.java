@@ -121,7 +121,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
                 .color(Color.RED));
         mMap.addPolyline(new PolylineOptions().geodesic(true)
                 .add(new LatLng(52, 5), new LatLng(this.dou2, this.dou1))
-                .width(5)
+                .width(10)
                 .color(Color.BLUE));
     }
 }
