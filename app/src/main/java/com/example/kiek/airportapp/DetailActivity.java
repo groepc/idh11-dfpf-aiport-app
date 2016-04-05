@@ -1,6 +1,7 @@
 package com.example.kiek.airportapp;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -21,10 +23,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private TextView icao = null;
     private TextView countryCode = null;
     private TextView location = null;
+    private TextView distance = null;
     private GoogleMap mMap;
     double dou1;
     double dou2;
-    double distance;
 
     private final static String TAG2 = "DetailActivity";
 
@@ -40,6 +42,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         icao = (TextView) findViewById(R.id.textIcao);
         location = (TextView) findViewById(R.id.textLocation);
         countryCode = (TextView) findViewById(R.id.textCountryCode);
+        distance = (TextView) findViewById(R.id.textDistance);
 
 
         // Init database and query
@@ -55,13 +58,17 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         dou2 = cursor2.getDouble(cursor2.getColumnIndex("latitude"));
         String dbCountryCode = cursor2.getString(cursor2.getColumnIndex("iso_country"));
 
+        Double distanceCalc = Haversine.distance(52, 5, dou2, dou1);
+
 
         name.setText(dbName);
         icao.setText(dbIcao);
         location.setText(dbLocation);
         countryCode.setText(dbCountryCode);
+        distance.setText(distanceCalc.toString());
 
-        distance = Haversine.distance(52, 5, dou2, dou1);
+
+
 
         //testView2.setText("The distance to Schiphol Airport (NL) is " + distance + "km.");
 
@@ -108,5 +115,13 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         mMap.addMarker(new MarkerOptions().position(detailAirport).title("Marker on selected airport"));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(schiphol));
+        mMap.addPolyline(new PolylineOptions()
+                .add(new LatLng(52, 5), new LatLng(this.dou2, this.dou1))
+                .width(5)
+                .color(Color.RED));
+        mMap.addPolyline(new PolylineOptions().geodesic(true)
+                .add(new LatLng(52, 5), new LatLng(this.dou2, this.dou1))
+                .width(5)
+                .color(Color.BLUE));
     }
 }
