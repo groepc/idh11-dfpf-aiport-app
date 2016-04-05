@@ -27,6 +27,7 @@ public class DetailActivity extends Activity implements OnMapReadyCallback {
     private GoogleMap mMap;
     double dou1;
     double dou2;
+    double distance;
 
     private final static String TAG2 = "DetailActivity";
 
@@ -39,7 +40,7 @@ public class DetailActivity extends Activity implements OnMapReadyCallback {
 
         //find out text view
         testView = (TextView) findViewById(R.id.test);
-        //testView2 = (TextView) findViewById(R.id.test2);
+        testView2 = (TextView) findViewById(R.id.test2);
 
         // Init database and query
         AirportsDatabase adb = new AirportsDatabase(this);
@@ -57,7 +58,10 @@ public class DetailActivity extends Activity implements OnMapReadyCallback {
 
         //display passed data
         testView.setText("The airport is " + str1 + " in " + str2 + " (" + str3+ ").");
-        //testView2.setText("Longitude: " + dou1 + " & latitude: " + dou2 +".");
+
+        distance = Haversine.distance(52, 5, dou2, dou1);
+
+        testView2.setText("The distance to Schiphol Airport (NL) is " + distance + "km.");
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
