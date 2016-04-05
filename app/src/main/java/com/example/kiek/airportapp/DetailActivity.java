@@ -39,7 +39,7 @@ public class DetailActivity extends Activity implements OnMapReadyCallback {
 
         //find out text view
         testView = (TextView) findViewById(R.id.test);
-        testView2 = (TextView) findViewById(R.id.test2);
+        //testView2 = (TextView) findViewById(R.id.test2);
 
         // Init database and query
         AirportsDatabase adb = new AirportsDatabase(this);
@@ -57,7 +57,7 @@ public class DetailActivity extends Activity implements OnMapReadyCallback {
 
         //display passed data
         testView.setText("The airport is " + str1 + " in " + str2 + " (" + str3+ ").");
-        testView2.setText("Longitude: " + dou1 + " & latitude: " + dou2 +".");
+        //testView2.setText("Longitude: " + dou1 + " & latitude: " + dou2 +".");
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
