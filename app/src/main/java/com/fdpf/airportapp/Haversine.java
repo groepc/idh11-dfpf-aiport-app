@@ -1,8 +1,5 @@
-package com.example.kiek.airportapp;
+package com.fdpf.airportapp;
 
-/**
- * Created by Kiek on 5-4-2016.
- */
 public class Haversine {
 
     private static final int EARTH_RADIUS = 6371; // Approx Earth radius in KM

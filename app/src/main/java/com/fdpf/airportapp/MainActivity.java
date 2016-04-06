@@ -1,4 +1,4 @@
-package com.example.kiek.airportapp;
+package com.fdpf.airportapp;
 
 import android.app.SearchManager;
 import android.content.ComponentName;

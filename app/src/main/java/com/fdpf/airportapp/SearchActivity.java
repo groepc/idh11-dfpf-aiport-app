@@ -1,4 +1,4 @@
-package com.example.kiek.airportapp;
+package com.fdpf.airportapp;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -13,13 +13,10 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Kiek on 28-3-2016.
- */
 public class SearchActivity extends AppCompatActivity {
 
     private final static String TAG = "SearchActivity";
-    public final static String airport = "com.example.kiek.airportapp._name";
+    public final static String airport = "com.fdpf.airportapp._name";
 
     AirportsDatabase adb;
     public ListView searchListView;

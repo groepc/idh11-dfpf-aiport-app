@@ -1,4 +1,4 @@
-package com.example.kiek.airportapp;
+package com.fdpf.airportapp;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,9 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
-/**
- * Created by Kiek on 14-3-2016.
- */
 public class AirportsDatabase extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "airports.db";
