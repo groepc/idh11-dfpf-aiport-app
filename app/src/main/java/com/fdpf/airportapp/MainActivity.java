@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     public ListView airportListView;
     ArrayList list;
 
-    public final static String airport = "com.example.kiek.airportapp._name";
+    public final static String airport = "com.fdpf.airportapp._name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
